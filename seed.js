@@ -3,10 +3,7 @@ const bcrypt = require('bcryptjs');
 
 // Check if already seeded
 const count = db.prepare('SELECT COUNT(*) as c FROM users').get().c;
-if (count > 0) {
-  console.log('✅ Database already seeded, skipping...');
-  return;
-}
+if (count === 0) {
 
 console.log('🌱 Seeding database...');
 
@@ -59,3 +56,7 @@ for (let i = 0; i < rides.length; i++) {
 
 console.log(`✅ Seeded ${users.length} users and ${rides.length} rides`);
 console.log('📧 Login with any email above, password: password123');
+
+} else {
+  console.log('✅ Database already seeded, skipping...');
+}

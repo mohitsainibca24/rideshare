@@ -1,12 +1,13 @@
 const express = require('express');
-const db = require('../db/database');
+const { getDb } = require('../db/database');
 const auth = require('../middleware/auth');
 
 const router = express.Router();
 
 // Book a ride
-router.post('/', auth, (req, res) => {
+router.post('/', auth, async (req, res) => {
   try {
+    const db = await getDb();
     const { ride_id, seats_booked } = req.body;
     const seats = seats_booked || 1;
 
@@ -55,8 +56,9 @@ router.post('/', auth, (req, res) => {
 });
 
 // Get my bookings
-router.get('/my', auth, (req, res) => {
+router.get('/my', auth, async (req, res) => {
   try {
+    const db = await getDb();
     const bookings = db.prepare(`
       SELECT b.*, r.origin, r.destination, r.departure_date, r.departure_time, r.price,
              r.car_model, r.car_color, u.name as driver_name, u.avatar as driver_avatar, u.rating as driver_rating
@@ -74,8 +76,9 @@ router.get('/my', auth, (req, res) => {
 });
 
 // Cancel a booking
-router.delete('/:id', auth, (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
+    const db = await getDb();
     const booking = db.prepare(
       'SELECT * FROM bookings WHERE id = ? AND passenger_id = ?'
     ).get(req.params.id, req.user.id);

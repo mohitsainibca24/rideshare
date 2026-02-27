@@ -3,8 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 
-// Auto-seed database on startup
-require('./seed');
+const seed = require('./seed');
 
 const authRoutes = require('./routes/auth');
 const rideRoutes = require('./routes/rides');
@@ -28,6 +27,12 @@ app.get('/{*splat}', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`🚗 RideShare server running at http://localhost:${PORT}`);
+// Seed database then start server
+seed().then(() => {
+  app.listen(PORT, () => {
+    console.log(`🚗 RideShare server running at http://localhost:${PORT}`);
+  });
+}).catch(err => {
+  console.error('Failed to seed database:', err);
+  process.exit(1);
 });

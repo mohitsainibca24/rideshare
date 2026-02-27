@@ -1,15 +1,16 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const db = require('../db/database');
+const { getDb } = require('../db/database');
 const auth = require('../middleware/auth');
 require('dotenv').config();
 
 const router = express.Router();
 
 // Register
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   try {
+    const db = await getDb();
     const { name, email, password, phone } = req.body;
 
     if (!name || !email || !password) {
@@ -46,8 +47,9 @@ router.post('/register', (req, res) => {
 });
 
 // Login
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   try {
+    const db = await getDb();
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -89,8 +91,9 @@ router.post('/login', (req, res) => {
 });
 
 // Get current user profile
-router.get('/me', auth, (req, res) => {
+router.get('/me', auth, async (req, res) => {
   try {
+    const db = await getDb();
     const user = db.prepare(
       'SELECT id, name, email, phone, avatar, rating, trips_count, created_at FROM users WHERE id = ?'
     ).get(req.user.id);
@@ -103,8 +106,9 @@ router.get('/me', auth, (req, res) => {
 });
 
 // Update profile
-router.put('/me', auth, (req, res) => {
+router.put('/me', auth, async (req, res) => {
   try {
+    const db = await getDb();
     const { name, phone } = req.body;
     db.prepare('UPDATE users SET name = COALESCE(?, name), phone = COALESCE(?, phone) WHERE id = ?')
       .run(name || null, phone || null, req.user.id);

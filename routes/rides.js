@@ -1,12 +1,13 @@
 const express = require('express');
-const db = require('../db/database');
+const { getDb } = require('../db/database');
 const auth = require('../middleware/auth');
 
 const router = express.Router();
 
 // Create a ride
-router.post('/', auth, (req, res) => {
+router.post('/', auth, async (req, res) => {
   try {
+    const db = await getDb();
     const { origin, destination, departure_date, departure_time, seats_available, price, car_model, car_color, description } = req.body;
 
     if (!origin || !destination || !departure_date || !departure_time || !seats_available || !price) {
@@ -26,8 +27,9 @@ router.post('/', auth, (req, res) => {
 });
 
 // Search rides
-router.get('/search', (req, res) => {
+router.get('/search', async (req, res) => {
   try {
+    const db = await getDb();
     const { origin, destination, date } = req.query;
 
     let query = `
@@ -61,8 +63,9 @@ router.get('/search', (req, res) => {
 });
 
 // Get all active rides
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
+    const db = await getDb();
     const rides = db.prepare(`
       SELECT r.*, u.name as driver_name, u.avatar as driver_avatar, u.rating as driver_rating, u.trips_count as driver_trips
       FROM rides r
@@ -79,8 +82,9 @@ router.get('/', (req, res) => {
 });
 
 // Get single ride details
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
+    const db = await getDb();
     const ride = db.prepare(`
       SELECT r.*, u.name as driver_name, u.avatar as driver_avatar, u.rating as driver_rating,
              u.phone as driver_phone, u.trips_count as driver_trips
@@ -105,8 +109,9 @@ router.get('/:id', (req, res) => {
 });
 
 // Get my offered rides
-router.get('/my/offered', auth, (req, res) => {
+router.get('/my/offered', auth, async (req, res) => {
   try {
+    const db = await getDb();
     const rides = db.prepare(`
       SELECT r.*, 
         (SELECT COUNT(*) FROM bookings b WHERE b.ride_id = r.id AND b.status = 'confirmed') as booked_seats
@@ -122,8 +127,9 @@ router.get('/my/offered', auth, (req, res) => {
 });
 
 // Delete a ride
-router.delete('/:id', auth, (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
+    const db = await getDb();
     const ride = db.prepare('SELECT * FROM rides WHERE id = ? AND driver_id = ?').get(req.params.id, req.user.id);
     if (!ride) return res.status(404).json({ error: 'Ride not found or unauthorized.' });
 

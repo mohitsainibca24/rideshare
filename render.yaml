@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: rideshare
+    runtime: node
+    buildCommand: npm install --build-from-source
+    startCommand: node server.js
+    envVars:
+      - key: JWT_SECRET
+        value: carpooling_super_secret_key_2026
+      - key: NODE_ENV
+        value: production

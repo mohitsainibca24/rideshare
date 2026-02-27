@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RideShare - Carpooling Made Easy</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo" onclick="showPage('home')">
+        <i class="fas fa-car-side"></i>
+        <span>RideShare</span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#" onclick="showPage('home')" class="nav-link active" data-page="home">Home</a>
+        <a href="#" onclick="showPage('search')" class="nav-link" data-page="search">Find Rides</a>
+        <a href="#" onclick="showPage('offer')" class="nav-link auth-required" data-page="offer">Offer Ride</a>
+        <a href="#" onclick="showPage('myrides')" class="nav-link auth-required" data-page="myrides">My Rides</a>
+      </div>
+      <div class="nav-actions">
+        <div id="authButtons">
+          <button class="btn btn-outline" onclick="showPage('login')">Log In</button>
+          <button class="btn btn-primary" onclick="showPage('register')">Sign Up</button>
+        </div>
+        <div id="userMenu" class="user-menu hidden">
+          <button class="user-avatar-btn" onclick="toggleUserDropdown()">
+            <span id="userAvatar">🧑</span>
+            <span id="userName">User</span>
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <div class="dropdown-menu hidden" id="userDropdown">
+            <a href="#" onclick="showPage('profile')"><i class="fas fa-user"></i> Profile</a>
+            <a href="#" onclick="showPage('myrides')"><i class="fas fa-route"></i> My Rides</a>
+            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
+        </div>
+      </div>
+      <button class="mobile-toggle" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===================== HOME PAGE ===================== -->
+  <section id="page-home" class="page active">
+    <!-- Hero Section -->
+    <div class="hero">
+      <div class="hero-bg">
+        <div class="hero-shape shape-1"></div>
+        <div class="hero-shape shape-2"></div>
+        <div class="hero-shape shape-3"></div>
+      </div>
+      <div class="hero-content">
+        <h1 class="hero-title">
+          Share the Ride,<br>
+          <span class="gradient-text">Share the Journey</span>
+        </h1>
+        <p class="hero-subtitle">Connect with fellow travelers, save money, and reduce your carbon footprint. The smarter way to travel.</p>
+        
+        <!-- Quick Search -->
+        <div class="hero-search">
+          <div class="search-box">
+            <div class="search-field">
+              <i class="fas fa-map-marker-alt" style="color: #10b981;"></i>
+              <input type="text" id="heroFrom" placeholder="Leaving from..." />
+            </div>
+            <div class="search-divider"></div>
+            <div class="search-field">
+              <i class="fas fa-map-pin" style="color: #ef4444;"></i>
+              <input type="text" id="heroTo" placeholder="Going to..." />
+            </div>
+            <div class="search-divider"></div>
+            <div class="search-field">
+              <i class="fas fa-calendar" style="color: #6366f1;"></i>
+              <input type="date" id="heroDate" />
+            </div>
+            <button class="btn btn-primary btn-search" onclick="heroSearch()">
+              <i class="fas fa-search"></i>
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-section">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <div class="stat-number" data-count="15000">0</div>
+            <div class="stat-label">Happy Riders</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-route"></i></div>
+            <div class="stat-number" data-count="8500">0</div>
+            <div class="stat-label">Rides Shared</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-leaf"></i></div>
+            <div class="stat-number" data-count="42000">0</div>
+            <div class="stat-label">kg CO₂ Saved</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-city"></i></div>
+            <div class="stat-number" data-count="120">0</div>
+            <div class="stat-label">Cities</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="how-it-works">
+      <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">Get started in three easy steps</p>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-number">01</div>
+            <div class="step-icon"><i class="fas fa-search-location"></i></div>
+            <h3>Search a Ride</h3>
+            <p>Enter your departure and destination cities, select your travel date and find available rides.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">02</div>
+            <div class="step-icon"><i class="fas fa-handshake"></i></div>
+            <h3>Book & Connect</h3>
+            <p>Choose the ride that suits you best, book your seat, and connect with your driver.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-number">03</div>
+            <div class="step-icon"><i class="fas fa-car"></i></div>
+            <h3>Enjoy the Ride</h3>
+            <p>Meet at the pickup point, share the journey, split the costs, and enjoy the company!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Rides -->
+    <div class="featured-rides">
+      <div class="container">
+        <h2 class="section-title">Available Rides</h2>
+        <p class="section-subtitle">Popular rides happening soon</p>
+        <div class="rides-grid" id="featuredRides">
+          <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading rides...</div>
+        </div>
+        <div class="text-center mt-2">
+          <button class="btn btn-outline btn-lg" onclick="showPage('search')">View All Rides <i class="fas fa-arrow-right"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section">
+      <div class="container">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon" style="background: linear-gradient(135deg, #10b981, #059669)">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Verified Profiles</h3>
+            <p>All users are verified for your safety and peace of mind.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon" style="background: linear-gradient(135deg, #6366f1, #4f46e5)">
+              <i class="fas fa-wallet"></i>
+            </div>
+            <h3>Save Money</h3>
+            <p>Share travel costs and save up to 75% compared to traveling alone.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706)">
+              <i class="fas fa-globe-americas"></i>
+            </div>
+            <h3>Eco-Friendly</h3>
+            <p>Reduce emissions by sharing rides and help save the planet.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626)">
+              <i class="fas fa-comments"></i>
+            </div>
+            <h3>Community</h3>
+            <p>Meet new people and build lasting connections on your journeys.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <h3><i class="fas fa-car-side"></i> RideShare</h3>
+            <p>Making carpooling simple, safe, and affordable for everyone.</p>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-facebook"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+          </div>
+          <div class="footer-links">
+            <h4>Company</h4>
+            <a href="#">About Us</a>
+            <a href="#">Careers</a>
+            <a href="#">Blog</a>
+            <a href="#">Press</a>
+          </div>
+          <div class="footer-links">
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Safety</a>
+            <a href="#">Terms</a>
+            <a href="#">Privacy</a>
+          </div>
+          <div class="footer-links">
+            <h4>Discover</h4>
+            <a href="#">How it works</a>
+            <a href="#">Trust & Safety</a>
+            <a href="#">Travel Guide</a>
+            <a href="#">Community</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 RideShare. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ===================== SEARCH PAGE ===================== -->
+  <section id="page-search" class="page">
+    <div class="page-header">
+      <div class="container">
+        <h1><i class="fas fa-search"></i> Find Your Perfect Ride</h1>
+        <p>Search from hundreds of available rides</p>
+      </div>
+    </div>
+    <div class="container">
+      <div class="search-filters">
+        <div class="filter-group">
+          <label><i class="fas fa-map-marker-alt"></i> From</label>
+          <input type="text" id="searchFrom" placeholder="Departure city..." class="input" />
+        </div>
+        <div class="filter-group">
+          <label><i class="fas fa-map-pin"></i> To</label>
+          <input type="text" id="searchTo" placeholder="Destination city..." class="input" />
+        </div>
+        <div class="filter-group">
+          <label><i class="fas fa-calendar-alt"></i> Date</label>
+          <input type="date" id="searchDate" class="input" />
+        </div>
+        <button class="btn btn-primary" onclick="searchRides()">
+          <i class="fas fa-search"></i> Search Rides
+        </button>
+      </div>
+      <div class="rides-list" id="searchResults">
+        <div class="empty-state">
+          <i class="fas fa-map-marked-alt"></i>
+          <h3>Search for rides</h3>
+          <p>Enter your travel details above to find available rides</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== OFFER RIDE PAGE ===================== -->
+  <section id="page-offer" class="page">
+    <div class="page-header offer-header">
+      <div class="container">
+        <h1><i class="fas fa-plus-circle"></i> Offer a Ride</h1>
+        <p>Share your journey and split costs with fellow travelers</p>
+      </div>
+    </div>
+    <div class="container">
+      <div class="form-card">
+        <form id="offerRideForm" onsubmit="offerRide(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-map-marker-alt"></i> Departure City *</label>
+              <input type="text" name="origin" placeholder="e.g. New York" class="input" required />
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-map-pin"></i> Destination City *</label>
+              <input type="text" name="destination" placeholder="e.g. Boston" class="input" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-calendar-alt"></i> Departure Date *</label>
+              <input type="date" name="departure_date" class="input" required />
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-clock"></i> Departure Time *</label>
+              <input type="time" name="departure_time" class="input" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-chair"></i> Available Seats *</label>
+              <select name="seats_available" class="input" required>
+                <option value="1">1 seat</option>
+                <option value="2">2 seats</option>
+                <option value="3" selected>3 seats</option>
+                <option value="4">4 seats</option>
+                <option value="5">5 seats</option>
+                <option value="6">6 seats</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-dollar-sign"></i> Price per Seat *</label>
+              <input type="number" name="price" placeholder="25.00" min="1" step="0.50" class="input" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-car"></i> Car Model</label>
+              <input type="text" name="car_model" placeholder="e.g. Toyota Camry" class="input" />
+            </div>
+            <div class="form-group">
+              <label><i class="fas fa-palette"></i> Car Color</label>
+              <input type="text" name="car_color" placeholder="e.g. Silver" class="input" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-info-circle"></i> Additional Details</label>
+            <textarea name="description" placeholder="Any additional information... (pickup points, luggage space, music preferences, etc.)" class="input textarea"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">
+            <i class="fas fa-paper-plane"></i> Publish Ride
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MY RIDES PAGE ===================== -->
+  <section id="page-myrides" class="page">
+    <div class="page-header myrides-header">
+      <div class="container">
+        <h1><i class="fas fa-route"></i> My Rides</h1>
+        <p>Manage your rides and bookings</p>
+      </div>
+    </div>
+    <div class="container">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('booked')">
+          <i class="fas fa-ticket-alt"></i> My Bookings
+        </button>
+        <button class="tab" onclick="switchTab('offered')">
+          <i class="fas fa-car"></i> Rides I Offered
+        </button>
+      </div>
+      <div id="tab-booked" class="tab-content active">
+        <div class="rides-list" id="myBookings">
+          <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+        </div>
+      </div>
+      <div id="tab-offered" class="tab-content">
+        <div class="rides-list" id="myOfferedRides">
+          <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LOGIN PAGE ===================== -->
+  <section id="page-login" class="page">
+    <div class="auth-page">
+      <div class="auth-card">
+        <div class="auth-header">
+          <div class="auth-logo"><i class="fas fa-car-side"></i></div>
+          <h2>Welcome Back!</h2>
+          <p>Log in to your RideShare account</p>
+        </div>
+        <form id="loginForm" onsubmit="login(event)">
+          <div class="form-group">
+            <label>Email Address</label>
+            <div class="input-icon">
+              <i class="fas fa-envelope"></i>
+              <input type="email" name="email" placeholder="your@email.com" class="input" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <div class="input-icon">
+              <i class="fas fa-lock"></i>
+              <input type="password" name="password" placeholder="Enter your password" class="input" required />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">
+            <i class="fas fa-sign-in-alt"></i> Log In
+          </button>
+        </form>
+        <div class="auth-footer">
+          <p>Don't have an account? <a href="#" onclick="showPage('register')">Sign Up</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== REGISTER PAGE ===================== -->
+  <section id="page-register" class="page">
+    <div class="auth-page">
+      <div class="auth-card">
+        <div class="auth-header">
+          <div class="auth-logo"><i class="fas fa-user-plus"></i></div>
+          <h2>Join RideShare</h2>
+          <p>Create your free account today</p>
+        </div>
+        <form id="registerForm" onsubmit="register(event)">
+          <div class="form-group">
+            <label>Full Name</label>
+            <div class="input-icon">
+              <i class="fas fa-user"></i>
+              <input type="text" name="name" placeholder="John Doe" class="input" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <div class="input-icon">
+              <i class="fas fa-envelope"></i>
+              <input type="email" name="email" placeholder="your@email.com" class="input" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Phone (Optional)</label>
+            <div class="input-icon">
+              <i class="fas fa-phone"></i>
+              <input type="tel" name="phone" placeholder="+1 234 567 8900" class="input" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <div class="input-icon">
+              <i class="fas fa-lock"></i>
+              <input type="password" name="password" placeholder="Create a strong password" class="input" required minlength="6" />
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg btn-block">
+            <i class="fas fa-user-plus"></i> Create Account
+          </button>
+        </form>
+        <div class="auth-footer">
+          <p>Already have an account? <a href="#" onclick="showPage('login')">Log In</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROFILE PAGE ===================== -->
+  <section id="page-profile" class="page">
+    <div class="page-header profile-header">
+      <div class="container">
+        <h1><i class="fas fa-user-circle"></i> My Profile</h1>
+      </div>
+    </div>
+    <div class="container">
+      <div class="profile-card">
+        <div class="profile-top">
+          <div class="profile-avatar" id="profileAvatar">🧑</div>
+          <h2 id="profileName">User</h2>
+          <p id="profileEmail">user@email.com</p>
+          <div class="profile-stats">
+            <div class="profile-stat">
+              <span class="stat-value" id="profileRating">5.0</span>
+              <span class="stat-label"><i class="fas fa-star"></i> Rating</span>
+            </div>
+            <div class="profile-stat">
+              <span class="stat-value" id="profileTrips">0</span>
+              <span class="stat-label"><i class="fas fa-road"></i> Trips</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ride Detail Modal -->
+  <div class="modal-overlay hidden" id="rideModal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      <div id="rideModalContent"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

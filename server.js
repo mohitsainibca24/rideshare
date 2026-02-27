@@ -3,6 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 
+// Auto-seed database on startup
+require('./seed');
+
 const authRoutes = require('./routes/auth');
 const rideRoutes = require('./routes/rides');
 const bookingRoutes = require('./routes/bookings');

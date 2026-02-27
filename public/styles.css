@@ -910,18 +910,18 @@ body {
 .dev-photo-wrapper {
   position: relative;
   flex-shrink: 0;
+  width: 100px;
+  height: 100px;
 }
 
 .dev-photo {
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid transparent;
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-  background-image: linear-gradient(#1a1040, #1a1040),
-                    linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+  object-position: center top;
+  border: 3px solid #a855f7;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
   position: relative;
   z-index: 1;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
@@ -934,7 +934,9 @@ body {
 
 .dev-photo-ring {
   position: absolute;
-  inset: -6px;
+  inset: -8px;
+  width: calc(100% + 16px);
+  height: calc(100% + 16px);
   border-radius: 50%;
   border: 2px dashed rgba(168, 85, 247, 0.5);
   animation: ringRotate 8s linear infinite;

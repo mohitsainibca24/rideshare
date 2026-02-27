@@ -301,7 +301,7 @@ function renderSearchResults(rides) {
         </div>
       </div>
       <div class="ride-list-price">
-        <div class="amount">$${ride.price}</div>
+        <div class="amount">₹${ride.price}</div>
         <div class="label">per seat</div>
       </div>
     </div>
@@ -340,7 +340,7 @@ function createRideCard(ride) {
             <div class="driver-rating">★ ${ride.driver_rating?.toFixed(1) || '5.0'} · ${ride.driver_trips || 0} trips</div>
           </div>
         </div>
-        <div class="ride-price">$${ride.price}<span>/seat</span></div>
+        <div class="ride-price">₹${ride.price}<span>/seat</span></div>
       </div>
     </div>`;
 }
@@ -362,7 +362,7 @@ async function viewRide(id) {
       <div class="modal-ride-detail"><i class="fas fa-calendar-alt"></i> <strong>Date:</strong> ${formatDate(ride.departure_date)}</div>
       <div class="modal-ride-detail"><i class="fas fa-clock"></i> <strong>Time:</strong> ${formatTime(ride.departure_time)}</div>
       <div class="modal-ride-detail"><i class="fas fa-chair"></i> <strong>Available Seats:</strong> ${ride.seats_available}</div>
-      <div class="modal-ride-detail"><i class="fas fa-dollar-sign"></i> <strong>Price:</strong> $${ride.price} per seat</div>
+      <div class="modal-ride-detail"><i class="fas fa-rupee-sign"></i> <strong>Price:</strong> ₹${ride.price} per seat</div>
       ${ride.car_model ? `<div class="modal-ride-detail"><i class="fas fa-car"></i> <strong>Car:</strong> ${ride.car_model}${ride.car_color ? ` (${ride.car_color})` : ''}</div>` : ''}
       ${ride.description ? `<div class="modal-ride-detail"><i class="fas fa-info-circle"></i> <strong>Notes:</strong> ${ride.description}</div>` : ''}
       
@@ -537,7 +537,7 @@ async function loadMyRides() {
             </div>
           </div>
           <div class="ride-list-price">
-            <div class="amount">$${b.price}</div>
+            <div class="amount">₹${b.price}</div>
             <div class="label">per seat</div>
           </div>
           ${b.status === 'confirmed' ? `<button class="btn btn-danger btn-sm" onclick="cancelBooking(${b.id})"><i class="fas fa-times"></i> Cancel</button>` : ''}
@@ -580,7 +580,7 @@ async function loadMyRides() {
             </div>
           </div>
           <div class="ride-list-price">
-            <div class="amount">$${r.price}</div>
+            <div class="amount">₹${r.price}</div>
             <div class="label">per seat</div>
           </div>
         </div>
